@@ -19,3 +19,7 @@
   - main body
     - button lists/ filters
     - videos (clicking a video should open a video page)
+
+# Debouncing
+
+-

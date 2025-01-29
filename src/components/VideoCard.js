@@ -23,4 +23,16 @@ const VideoCard = ({ info }) => {
   );
 };
 
+export const fn = (VideoCard) => {
+  return (props) => {
+    return (
+      <>
+        <div className="p-1 m-1 border border-red-900">
+          <VideoCard {...props} />
+        </div>
+      </>
+    );
+  };
+};
+
 export default VideoCard;
