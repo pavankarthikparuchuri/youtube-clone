@@ -1,7 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleMenu } from "../utils/appSlice";
-import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { addVideos, toggleMenu } from "../utils/appSlice";
+import {
+  YOUTUBE_SEARCH_API,
+  YOUTUBE_VIDEO_SEARCH_API,
+} from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
@@ -39,7 +42,15 @@ const Head = () => {
     }
   };
   let debouncedYoutubeSearchFunc = debounceFunc(optimizedSearchResults, 200);
-  console.log(searchResults, "::searchResults");
+
+  const fetchVideos = async () => {
+    const data = await fetch(
+      YOUTUBE_VIDEO_SEARCH_API + inputRef?.current?.value
+    );
+    const json = await data.json();
+    console.log(json, "::json");
+    dispatch(addVideos(json.items));
+  };
   return (
     <>
       <div className="grid grid-flow-col p-5 m-2 shadow-lg">
@@ -70,10 +81,17 @@ const Head = () => {
               ref={inputRef}
               className="px-5 w-1/2 border border-gray-400 p-2 rounded-l-full"
               onChange={debouncedYoutubeSearchFunc}
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setShowSuggestions(false)}
+              onFocus={() => {
+                setShowSuggestions(true);
+              }}
+              onBlur={() => {
+                setTimeout(() => setShowSuggestions(false), 300);
+              }}
             />
-            <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100">
+            <button
+              className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100"
+              onClick={fetchVideos}
+            >
               🔍
             </button>
           </div>
@@ -87,10 +105,13 @@ const Head = () => {
         </div>
       </div>
       {showSuggestions && (
-        <div className="absolute top-[16%] left-[30%] bg-white py-2 px-2 w-[30%] shadow-lg rounded-lg border border-gray-100">
+        <div className="absolute top-[8%] left-[30%] lg:left-[20%] bg-white py-2 px-2 w-[30%] shadow-lg rounded-lg border border-gray-100">
           <ul>
             {searchResults.map((item) => (
-              <li className="py-2 px-3 m-1 shadow-sm hover:bg-gray-100">
+              <li
+                className="py-2 px-3 m-1 shadow-sm hover:bg-gray-100 cursor-pointer"
+                onClick={fetchVideos}
+              >
                 🔍{item}
               </li>
             ))}

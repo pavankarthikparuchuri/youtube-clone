@@ -9,7 +9,7 @@ const VideoCard = ({ info }) => {
         medium: { url },
       },
     },
-    statistics: { viewCount },
+    statistics,
   } = info;
   return (
     <div className="p-2 m-2 w-72 shadow-lg">
@@ -17,7 +17,7 @@ const VideoCard = ({ info }) => {
       <ul>
         <li className="font-bold py-2">{title}</li>
         <li>{channelTitle}</li>
-        <li>{viewCount} views</li>
+        <li>{statistics?.viewCount || 1000} views</li>
       </ul>
     </div>
   );
