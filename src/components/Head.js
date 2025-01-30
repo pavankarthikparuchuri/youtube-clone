@@ -48,8 +48,9 @@ const Head = () => {
       YOUTUBE_VIDEO_SEARCH_API + inputRef?.current?.value
     );
     const json = await data.json();
-    console.log(json, "::json");
-    dispatch(addVideos(json.items));
+    dispatch(
+      addVideos(json.items.map((item) => ({ ...item, id: item?.id?.videoId })))
+    );
   };
   return (
     <>
@@ -90,7 +91,9 @@ const Head = () => {
             />
             <button
               className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100"
-              onClick={fetchVideos}
+              onClick={() => {
+                fetchVideos();
+              }}
             >
               🔍
             </button>
@@ -110,7 +113,9 @@ const Head = () => {
             {searchResults.map((item) => (
               <li
                 className="py-2 px-3 m-1 shadow-sm hover:bg-gray-100 cursor-pointer"
-                onClick={fetchVideos}
+                onClick={() => {
+                  fetchVideos();
+                }}
               >
                 🔍{item}
               </li>
