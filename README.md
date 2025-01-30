@@ -20,6 +20,12 @@
     - button lists/ filters
     - videos (clicking a video should open a video page)
 
-# Debouncing
+# Live Chat
 
--
+- Challenges
+  - Get Data Live
+  - Update the UI
+- For getting data live
+  - we can use websockets, web sockets is a two way connection between server and client. we can quickly send data from either sides.(live chat, trading platforms use websockets)
+  - we can also do api polling, here the client requests the server in regular intervals.(cricbuzz, gmail)
+  - we will be using api polling as the order of comments doesnot matter and also it is fine to show messages in delay.
